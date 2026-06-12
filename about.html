@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | EstateLand Luxury</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-base: #000000; --bg-surface: #0a0a0a; --text-primary: #ffffff; --text-secondary: #888888;
+            --accent-gold: #D4AF37; --glass-bg: rgba(20, 20, 20, 0.4); --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(24px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-base); color: var(--text-primary); overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; height: auto; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 4vw; }
+        .section-pad { padding: 120px 0; }
+        
+        .serif { font-family: 'Playfair Display', serif; }
+        .italic { font-style: italic; }
+        .gold-text { color: var(--accent-gold); }
+        .text-muted { color: var(--text-secondary); font-weight: 300; }
+        
+        .section-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; text-align: center; margin-bottom: 20px; line-height: 1.1; }
+        .section-subtitle { text-align: center; font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 60px; font-weight: 300; }
+
+        .glass-panel { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 24px; }
+
+        /* MASTER UNIFIED NAVBAR */
+        .navbar { position: fixed; top: 0; width: 100%; padding: 25px 0; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s ease; }
+        .navbar.scrolled { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 15px 0; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 40px; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .nav-links a { position: relative; padding-bottom: 4px; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-gold); }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--accent-gold); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        .btn-gold { background: linear-gradient(135deg, var(--accent-gold), #aa7c11); color: white; border: none; padding: 16px 35px; border-radius: 50px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
+        .btn-outline { background: transparent; border: 1px solid var(--accent-gold); color: white; padding: 16px 35px; border-radius: 50px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-outline:hover { background: rgba(212, 175, 55, 0.1); transform: translateY(-3px); }
+
+        /* VITAL SCROLL FIX: overflow: hidden prevents background image from bleeding down */
+        .hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background: url('./Videos/About Us.png') center/cover no-repeat; z-index: -2; will-change: transform; }
+        .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: -1; }
+        .hero-content { position: relative; z-index: 10; max-width: 900px; }
+        .hero-title { font-size: clamp(3rem, 6vw, 6rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--text-secondary); font-weight: 300; max-width: 700px; margin: 0 auto; }
+
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+        .story-img { position: relative; border-radius: 20px; overflow: hidden; height: 600px; }
+        .story-img img { width: 100%; height: 100%; object-fit: cover; }
+        .story-content h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.2; margin-bottom: 30px; }
+        .story-content p { font-size: 1.1rem; color: var(--text-secondary); font-weight: 300; margin-bottom: 20px; }
+        .founder-sign { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent-gold); margin-top: 30px; font-style: italic; }
+
+        .stats-section { border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); background: var(--bg-surface); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
+        .stat-card h3 { font-size: 4rem; font-weight: 300; color: var(--accent-gold); line-height: 1; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+        .stat-card p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary); }
+
+        .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .mv-card { padding: 60px 50px; }
+        .mv-card i { color: var(--accent-gold); width: 40px; height: 40px; margin-bottom: 30px; }
+        .mv-card h3 { font-size: 2rem; font-family: 'Playfair Display', serif; margin-bottom: 20px; font-weight: 400; }
+        .mv-card p { color: var(--text-secondary); font-size: 1.1rem; font-weight: 300; }
+
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
+        .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--glass-border); transform: translateX(-50%); }
+        .timeline-item { display: flex; justify-content: flex-end; padding-right: 50%; position: relative; margin-bottom: 50px; }
+        .timeline-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 50%; }
+        .timeline-content { width: 80%; padding: 30px; position: relative; }
+        .timeline-item:nth-child(odd) .timeline-content { text-align: right; }
+        .timeline-dot { position: absolute; left: 50%; top: 40px; width: 16px; height: 16px; background: var(--bg-base); border: 2px solid var(--accent-gold); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 15px var(--accent-gold); }
+        .timeline-year { font-size: 1.5rem; color: var(--accent-gold); font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+        
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { padding: 40px 30px; transition: 0.4s; text-align: center; }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--accent-gold); }
+        .feature-icon { width: 70px; height: 70px; margin: 0 auto 25px; border-radius: 50%; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; }
+        .feature-icon i { color: var(--accent-gold); width: 30px; height: 30px; }
+        .feature-card h4 { font-size: 1.2rem; font-weight: 500; margin-bottom: 15px; }
+
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .team-card { border-radius: 20px; overflow: hidden; position: relative; }
+        .team-img { height: 450px; }
+        .team-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .team-card:hover .team-img img { filter: grayscale(0%); transform: scale(1.05); }
+        .team-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .team-info h4 { font-size: 1.5rem; font-family: 'Playfair Display', serif; margin-bottom: 5px; }
+        .team-info span { color: var(--accent-gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .cta-section { position: relative; padding: 150px 0; text-align: center; background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2500') center/cover fixed; }
+        .cta-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        .cta-content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; }
+        .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
+
+        footer { padding: 80px 0 30px; border-top: 1px solid var(--glass-border); text-align: center; background: #050505; }
+        .footer-brand { font-size: 1.5rem; font-weight: 800; letter-spacing: 4px; margin-bottom: 30px; }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; }
+        .social-links a { color: var(--text-secondary); transition: 0.3s; }
+        .social-links a:hover { color: #fff; }
+        .footer-legal { font-size: 0.8rem; color: #555; text-transform: uppercase; letter-spacing: 2px; border-top: 1px solid var(--glass-border); padding-top: 30px; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.2s; }
+
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .story-grid, .mv-grid { grid-template-columns: 1fr; gap: 50px; }
+            .timeline::before { left: 30px; }
+            .timeline-item { justify-content: flex-end; padding-right: 0; padding-left: 60px; margin-bottom: 30px; }
+            .timeline-item:nth-child(even) { justify-content: flex-end; padding-right: 0; padding-left: 60px; }
+            .timeline-content { width: 100%; text-align: left; }
+            .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+            .timeline-dot { left: 30px; }
+            .section-pad { padding: 80px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="nav-logo" style="text-decoration: none;">Estate<span class="serif italic gold-text" style="text-transform: lowercase; font-size: 1.4rem;">land</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="plots.html">The Estates</a>
+                <a href="about.html" class="active">Our Vision</a>
+                <a href="#contact">Concierge</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content reveal active">
+            <h1 class="hero-title serif italic">Building Trust Through <br><span class="gold-text">Land Investments</span></h1>
+            <p class="hero-subtitle">Helping families and visionaries secure their generational wealth through curated, premium land opportunities.</p>
+        </div>
+    </section>
+
+    <section class="section-pad container">
+        <div class="story-grid">
+            <div class="story-img reveal">
+                <img src="./Videos/About Us1.jpeg" alt="Founder">
+            </div>
+            <div class="story-content reveal delay-1">
+                <h2 class="serif italic">A Vision Rooted in <span class="gold-text">Solid Ground.</span></h2>
+                <p>EstateLand was born from a simple observation: real estate investment was unnecessarily opaque, stressful, and exclusionary. We set out to build a platform that strips away the complexity, offering only the top 1% of geographically strategic land parcels.</p>
+                <p>For over fifteen years, we have meticulously vetted, acquired, and developed land that not only serves as a safe haven for capital but aggressively appreciates over time. Our commitment is absolute transparency, unyielding legality, and a frictionless ownership experience.</p>
+                <div class="founder-sign">Arasada Seshagiri Rao</div>
+                <p style="font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-gold); margin-top: 5px;">Founder & CEO</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad stats-section">
+        <div class="container stats-grid">
+            <div class="stat-card reveal">
+                <h3 class="counter" data-target="1000">0</h3>
+                <p>Plots Acquired</p>
+            </div>
+            <div class="stat-card reveal delay-1">
+                <h3 class="counter" data-target="500">0</h3>
+                <p>Elite Investors</p>
+            </div>
+            <div class="stat-card reveal delay-1">
+                <h3 class="counter" data-target="15">0</h3>
+                <p>Years Legacy</p>
+            </div>
+            <div class="stat-card reveal delay-1">
+                <h3 class="counter" data-target="20">0</h3>
+                <p>Premium Projects</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container">
+        <div class="mv-grid">
+            <div class="glass-panel mv-card reveal">
+                <i data-lucide="compass"></i>
+                <h3 class="italic">Our Mission</h3>
+                <p>To democratize access to institutional-grade land investments by offering legally pristine, strategically located assets with transparent pricing and end-to-end concierge service.</p>
+            </div>
+            <div class="glass-panel mv-card reveal delay-1">
+                <i data-lucide="eye"></i>
+                <h3 class="italic">Our Vision</h3>
+                <p>To be the world’s most trusted purveyor of ultra-premium land assets, building a global community of investors who secure their generational wealth on solid, appreciating ground.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container">
+        <h2 class="section-title serif italic">The EstateLand <span class="gold-text">Legacy</span></h2>
+        <p class="section-subtitle">A decade and a half of transforming barren landscapes into thriving investment hubs.</p>
+        
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-panel timeline-content">
+                    <div class="timeline-year">2010</div>
+                    <h4>The Foundation</h4>
+                    <p class="text-muted">EstateLand is established with a vision to bring transparency to the unorganized land sector.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-panel timeline-content">
+                    <div class="timeline-year">2014</div>
+                    <h4>First Major Acquisition</h4>
+                    <p class="text-muted">Successfully launched and sold out the 50-acre 'North Valley Enclave' in record time.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-panel timeline-content">
+                    <div class="timeline-year">2019</div>
+                    <h4>Institutional Trust</h4>
+                    <p class="text-muted">Achieved 100% RERA compliance across all active projects, solidifying our reputation for ironclad legality.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-panel timeline-content">
+                    <div class="timeline-year">2026</div>
+                    <h4>The Future</h4>
+                    <p class="text-muted">Managing a portfolio of over 1,000+ prime plots and expanding into luxury resort-style communities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container">
+        <h2 class="section-title serif italic">The EstateLand <span class="gold-text">Advantage</span></h2>
+        <p class="section-subtitle">We don't just sell dirt. We engineer secure, appreciating financial assets.</p>
+        
+        <div class="features-grid">
+            <div class="glass-panel feature-card reveal">
+                <div class="feature-icon"><i data-lucide="file-check-2"></i></div>
+                <h4>Clear Documentation</h4>
+                <p class="text-muted">Every asset undergoes rigorous 30-year legal scrutiny before acquisition.</p>
+            </div>
+            <div class="glass-panel feature-card reveal delay-1">
+                <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                <h4>DTCP/RERA Approved</h4>
+                <p class="text-muted">100% compliant with government regulations for risk-free ownership.</p>
+            </div>
+            <div class="glass-panel feature-card reveal delay-1">
+                <div class="feature-icon"><i data-lucide="map"></i></div>
+                <h4>Prime Locations</h4>
+                <p class="text-muted">Assets strategically positioned in high-growth corridors for maximum ROI.</p>
+            </div>
+            <div class="glass-panel feature-card reveal">
+                <div class="feature-icon"><i data-lucide="coins"></i></div>
+                <h4>Transparent Pricing</h4>
+                <p class="text-muted">Zero hidden fees. Fixed, market-driven valuation models.</p>
+            </div>
+            <div class="glass-panel feature-card reveal delay-1">
+                <div class="feature-icon"><i data-lucide="car"></i></div>
+                <h4>Private Site Tours</h4>
+                <p class="text-muted">Chauffeur-driven site visits guided by our senior wealth advisors.</p>
+            </div>
+            <div class="glass-panel feature-card reveal delay-1">
+                <div class="feature-icon"><i data-lucide="headphones"></i></div>
+                <h4>Concierge Support</h4>
+                <p class="text-muted">End-to-end assistance from initial tour to final registry and beyond.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad container">
+        <h2 class="section-title serif italic">The <span class="gold-text">Architects</span></h2>
+        <p class="section-subtitle">Led by industry veterans dedicated to securing your future.</p>
+        
+        <div class="team-grid">
+            <div class="team-card reveal">
+                <div class="team-img"><img src="./Videos/CEO.png" alt="CEO"></div>
+                <div class="team-info">
+                    <h4>Vijaya</h4>
+                    <span>Founder & CEO</span>
+                </div>
+            </div>
+            <div class="team-card reveal delay-1">
+                <div class="team-img"><img src="./Videos/Ceo2.png" alt="COO"></div>
+                <div class="team-info">
+                    <h4>Pavan Teja</h4>
+                    <span>Chief Operating Officer</span>
+                </div>
+            </div>
+            <div class="team-card reveal delay-1">
+                <div class="team-img"><img src="./Videos/Ceo3.png" alt="Head of Sales"></div>
+                <div class="team-info">
+                    <h4>Anish Karthik</h4>
+                    <span>VP of Acquisitions</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-overlay"></div>
+        <div class="container cta-content reveal">
+            <h2 class="serif italic" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px;">Ready To Invest In <br><span class="gold-text">Your Future?</span></h2>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; font-weight: 300;">Speak with our senior wealth advisors and begin your journey towards secure, high-yield land ownership today.</p>
+            
+            <div class="cta-buttons">
+                <a href="plots.html" class="btn-gold"><i data-lucide="eye"></i> View Estates</a>
+                <a href="https://wa.me/1234567890" target="_blank" class="btn-outline"><i data-lucide="message-square"></i> WhatsApp Us</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-brand">ESTATE<span class="serif italic gold-text">land</span></div>
+            <div class="social-links">
+                <a href="#"><i data-lucide="instagram"></i></a>
+                <a href="#"><i data-lucide="linkedin"></i></a>
+                <a href="#"><i data-lucide="twitter"></i></a>
+                <a href="#"><i data-lucide="mail"></i></a>
+            </div>
+            <div class="footer-legal">
+                &copy; 2026 EstateLand Global Inc. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            revealElements.forEach(el => observer.observe(el));
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            const heroBg = document.getElementById('hero-bg');
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.pageYOffset;
+                heroBg.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+            });
+
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = +entry.target.getAttribute('data-target');
+                        let count = 0;
+                        const increment = target / 100;
+                        
+                        const updateCount = () => {
+                            count += increment;
+                            if (count < target) {
+                                entry.target.innerText = Math.ceil(count) + '+';
+                                setTimeout(updateCount, 15);
+                            } else {
+                                entry.target.innerText = target + '+';
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => counterObserver.observe(counter));
+        });
+    </script>
+</body>
+</html>

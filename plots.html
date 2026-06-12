@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Land Investments | EstateLand</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --gold-light: #FCE69B;
+            --gold-main: #D4AF37;
+            --gold-dark: #AA7C11;
+            --glass-light: rgba(255, 255, 255, 0.08);
+            --glass-dark: rgba(10, 10, 10, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-color: #050505; 
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 5%; }
+        
+        .global-bg {
+            position: fixed; top: -5%; left: -5%; width: 110vw; height: 110vh;
+            background: url('./Videos/plot.png') center/cover no-repeat;
+            z-index: -2; transition: transform 0.1s linear;
+        }
+        .global-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.85) 100%);
+            z-index: -1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        }
+
+        .title-gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-main), var(--gold-dark));
+            background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; text-align: center; margin-bottom: 4rem; letter-spacing: -0.02em; }
+
+        /* MASTER UNIFIED NAVBAR */
+        .navbar {
+            position: fixed; top: 0; width: 100%; padding: 25px 0; z-index: 100;
+            background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+        .logo span { color: var(--gold-main); font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; text-transform: lowercase; font-size: 1.6rem; }
+        .nav-links { display: flex; gap: 40px; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+        .nav-links a { position: relative; padding-bottom: 4px; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold-main); transition: width 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .hero-content { position: relative; z-index: 10; max-width: 1000px; }
+        .hero-content h1 { font-size: clamp(3.5rem, 6vw, 6.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; }
+        .hero-content p { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; max-width: 600px; margin: 0 auto 40px; }
+        
+        .floating-card { position: absolute; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); padding: 20px 30px; border-radius: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); animation: float 6s infinite ease-in-out; z-index: 5; }
+        .card-icon { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-main), #5a4611); display: flex; align-items: center; justify-content: center; }
+        .card-icon i { color: #fff; width: 22px; }
+        .fc-data h4 { font-size: 1.8rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+        .fc-data span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-main); font-weight: 600; }
+        .fc-1 { top: 25%; left: 5%; animation-delay: 0s; } .fc-2 { bottom: 20%; right: 5%; animation-delay: -2s; } .fc-3 { top: 30%; right: 8%; animation-delay: -4s; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        .search-wrapper { margin-top: -60px; position: relative; z-index: 20; padding: 0 20px; }
+        .search-glass { max-width: 1100px; margin: 0 auto; background: var(--glass-dark); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 100px; padding: 15px 25px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 20px; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        .filter-group { display: flex; align-items: center; gap: 15px; padding: 10px 20px; border-right: 1px solid rgba(255,255,255,0.1); }
+        .filter-group:nth-child(3) { border-right: none; }
+        .filter-group i { color: var(--gold-main); }
+        .filter-group select { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 1rem; cursor: pointer; appearance: none; font-weight: 500; }
+        .filter-group select option { background: #111; color: white; }
+        
+        .btn-gold { background: linear-gradient(135deg, var(--gold-main), var(--gold-dark)); color: white; border: none; padding: 18px 40px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+        .btn-gold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4); }
+
+        .projects-section { padding: 120px 0; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px; }
+        .project-card { background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 15px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.06), transparent 40%); z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+        .project-card:hover { transform: translateY(-15px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 40px rgba(212, 175, 55, 0.1); }
+        .project-card:hover::before { opacity: 1; }
+        
+        .card-img { position: relative; width: 100%; height: 280px; border-radius: 16px; overflow: hidden; z-index: 1; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .project-card:hover .card-img img { transform: scale(1.08); }
+        
+        .badge { position: absolute; top: 15px; left: 15px; padding: 8px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; backdrop-filter: blur(10px); z-index: 2; }
+        .badge-available { background: rgba(212, 175, 55, 0.2); color: var(--gold-light); border: 1px solid var(--gold-main); }
+        .badge-reserved { background: rgba(255, 255, 255, 0.1); color: #ccc; border: 1px solid rgba(255,255,255,0.2); }
+        .badge-sold { background: rgba(0, 0, 0, 0.6); color: #fff; border: 1px solid rgba(255,0,0,0.3); }
+        
+        .card-content { padding: 30px 15px 15px; position: relative; z-index: 1; }
+        .card-content h3 { font-size: 1.6rem; font-weight: 500; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+        .location { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
+        .location i { color: var(--gold-main); width: 16px; }
+        
+        .card-metrics { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); margin-bottom: 25px; }
+        .metric { display: flex; flex-direction: column; gap: 4px; }
+        .metric span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .metric strong { font-size: 1.1rem; font-weight: 600; color: white; }
+        .metric strong.price-gold { color: var(--gold-light); }
+
+        .btn-glass { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: white; padding: 16px; border-radius: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; transition: all 0.3s ease; cursor: pointer; display: block; text-align: center; }
+        .project-card:hover .btn-glass { background: var(--gold-main); border-color: var(--gold-main); color: #000; }
+
+        .highlights-section { padding: 80px 0 120px; }
+        .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .highlight-card { background: var(--glass-dark); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); padding: 40px 30px; border-radius: 24px; text-align: center; transition: 0.4s; }
+        .highlight-card:hover { transform: translateY(-10px); border-color: var(--gold-main); background: rgba(20,20,20,0.8); }
+        .icon-box { width: 70px; height: 70px; margin: 0 auto 25px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .icon-box i { color: var(--gold-main); width: 30px; height: 30px; }
+        .highlight-card h3 { font-size: 1.3rem; margin-bottom: 12px; font-weight: 600; }
+        .highlight-card p { color: var(--text-muted); font-size: 0.95rem; font-weight: 300; }
+
+        .cta-section { padding: 150px 20px; text-align: center; position: relative; background: linear-gradient(to top, #050505, transparent); }
+        .cta-content { max-width: 800px; margin: 0 auto; }
+        .cta-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-family: 'Playfair Display', serif; margin-bottom: 20px; line-height: 1.1; }
+        .cta-content p { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; margin-bottom: 50px; }
+        .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .btn-outline-gold { background: transparent; color: white; border: 1px solid var(--gold-main); padding: 18px 40px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-outline-gold:hover { background: rgba(212, 175, 55, 0.1); transform: translateY(-3px); }
+
+        footer { background: #020202; padding: 100px 0 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+        .footer-brand p { color: var(--text-muted); margin-top: 20px; max-width: 350px; font-weight: 300; }
+        .footer-links h4 { font-size: 1.1rem; margin-bottom: 25px; font-family: 'Playfair Display', serif; color: var(--gold-light); }
+        .footer-links a, .footer-contact p { display: flex; align-items: center; gap: 12px; color: var(--text-muted); margin-bottom: 16px; font-size: 0.95rem; transition: 0.3s; }
+        .footer-links a:hover { color: var(--gold-main); transform: translateX(5px); }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: #666; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.15s; } .delay-2 { transition-delay: 0.3s; } .delay-3 { transition-delay: 0.45s; }
+
+        @media (max-width: 992px) {
+            .search-glass { grid-template-columns: 1fr 1fr; border-radius: 20px; padding: 20px; }
+            .filter-group:nth-child(2) { border-right: none; }
+            .filter-group { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 5px; }
+            .filter-group:nth-child(3), .filter-group:nth-child(4) { border-bottom: none; }
+            .btn-gold { width: 100%; justify-content: center; }
+            .floating-card { display: none; }
+        }
+        @media (max-width: 768px) {
+            .hidden-mobile { display: none; }
+            .search-glass { grid-template-columns: 1fr; }
+            .filter-group { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="global-bg" id="parallax-bg"></div>
+    <div class="global-overlay"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo" style="text-decoration: none;">ESTATE<span>land</span></a>
+            <div class="nav-links hidden-mobile">
+                <a href="index.html">Home</a>
+                <a href="plots.html" class="active">The Estates</a>
+                <a href="about.html">Our Vision</a>
+                <a href="about.html#contact">Concierge</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content fade-up">
+            <h1>Unearth <br><span class="title-gold">Your Legacy</span></h1>
+            <p>Exclusive access to the world's most sought-after land investments. Verified, secure, and poised for unparalleled appreciation.</p>
+        </div>
+        <div class="floating-card fc-1"><div class="card-icon"><i data-lucide="map"></i></div><div class="fc-data"><h4>1,000+</h4><span>Plots Acquired</span></div></div>
+        <div class="floating-card fc-2"><div class="card-icon"><i data-lucide="users"></i></div><div class="fc-data"><h4>500+</h4><span>Elite Investors</span></div></div>
+        <div class="floating-card fc-3"><div class="card-icon"><i data-lucide="shield-check"></i></div><div class="fc-data"><h4>10+</h4><span>Years Legacy</span></div></div>
+    </header>
+
+    <section class="search-wrapper fade-up delay-1">
+        <div class="search-glass">
+            <div class="filter-group">
+                <i data-lucide="map-pin"></i>
+                <select><option value="">Desired Location</option><option value="north">The North Valley</option><option value="south">South Ridge Highlands</option><option value="east">East Meadows Reserve</option></select>
+            </div>
+            <div class="filter-group">
+                <i data-lucide="wallet"></i>
+                <select><option value="">Investment Tier</option><option value="tier1">$50k - $100k</option><option value="tier2">$100k - $250k</option><option value="tier3">$250k+ (Ultra Luxury)</option></select>
+            </div>
+            <div class="filter-group">
+                <i data-lucide="maximize"></i>
+                <select><option value="">Estate Size</option><option value="medium">1/4 Acre - 1/2 Acre</option><option value="large">1 Acre - 5 Acres</option><option value="estate">5+ Acres</option></select>
+            </div>
+            <button class="btn-gold"><i data-lucide="search"></i> Explore</button>
+        </div>
+    </section>
+
+    <section class="projects-section container" id="projects">
+        <h2 class="section-title fade-up">Curated <span class="title-gold">Collections</span></h2>
+        
+        <div class="projects-grid">
+            <div class="project-card fade-up">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1513880989635-6eb491ce7f5b?q=80&w=1000" alt="Estate 1"><span class="badge badge-available">Available</span></div>
+                <div class="card-content">
+                    <h3>The Silver Pine Reserve</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> South Ridge Heights</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>2.5 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Starting From</span><strong class="price-gold">$185,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">Request Portfolio</a>
+                </div>
+            </div>
+
+            <div class="project-card fade-up delay-1">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?q=80&w=1000" alt="Estate 2"><span class="badge badge-reserved">Reserved</span></div>
+                <div class="card-content">
+                    <h3>Whispering Willows</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> East Meadows Lake</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>1.2 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Starting From</span><strong class="price-gold">$120,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">Join Waitlist</a>
+                </div>
+            </div>
+
+            <div class="project-card fade-up delay-2">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000" alt="Estate 3"><span class="badge badge-available">Available</span></div>
+                <div class="card-content">
+                    <h3>The Grand Horizon</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> West Valley Ridge</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>5.0 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Starting From</span><strong class="price-gold">$450,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">Request Portfolio</a>
+                </div>
+            </div>
+            
+            <div class="project-card fade-up">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000" alt="Estate 4"><span class="badge badge-sold">Sold Out</span></div>
+                <div class="card-content">
+                    <h3>Oakwood Enclave</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> Northern District</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>0.8 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Valuation</span><strong class="price-gold">$85,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">View History</a>
+                </div>
+            </div>
+
+             <div class="project-card fade-up delay-1">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1624814343161-fb54cd7f516d?q=80&w=1000" alt="Estate 5"><span class="badge badge-available">Available</span></div>
+                <div class="card-content">
+                    <h3>Emerald Greens</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> Central Commerce Hub</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>1.5 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Starting From</span><strong class="price-gold">$150,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">Request Portfolio</a>
+                </div>
+            </div>
+
+            <div class="project-card fade-up delay-2">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1598885511440-218a568ce3d1?q=80&w=1000" alt="Estate 6"><span class="badge badge-available">Available</span></div>
+                <div class="card-content">
+                    <h3>Sunrise Valley Estates</h3>
+                    <p class="location"><i data-lucide="map-pin"></i> Private Airport Road</p>
+                    <div class="card-metrics">
+                        <div class="metric"><span>Acreage</span><strong>3.0 Acres</strong></div>
+                        <div class="metric" style="text-align: right;"><span>Starting From</span><strong class="price-gold">$280,000</strong></div>
+                    </div>
+                    <a href="plot-details.html" class="btn-glass">Request Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlights-section container">
+        <h2 class="section-title fade-up">The EstateLand <span class="title-gold">Standard</span></h2>
+        <div class="highlights-grid">
+            <div class="highlight-card fade-up"><div class="icon-box"><i data-lucide="gem"></i></div><h3>Prime Acquisition</h3><p>We source only the top 1% of geographically strategic land parcels for maximum yield.</p></div>
+            <div class="highlight-card fade-up delay-1"><div class="icon-box"><i data-lucide="shield-check"></i></div><h3>Ironclad Legality</h3><p>Comprehensive due diligence, clear titles, and supreme government approvals guaranteed.</p></div>
+            <div class="highlight-card fade-up delay-2"><div class="icon-box"><i data-lucide="trending-up"></i></div><h3>Aggressive Growth</h3><p>Assets located in rapidly expanding corridors engineered for superior capital appreciation.</p></div>
+            <div class="highlight-card fade-up delay-3"><div class="icon-box"><i data-lucide="key"></i></div><h3>Turnkey Ownership</h3><p>From initial tour to final registry, experience a frictionless concierge service.</p></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content fade-up">
+            <h2>Secure Your <span class="title-gold">Masterpiece.</span></h2>
+            <p>Connect with our senior private wealth advisors to structure your next generational land asset.</p>
+            <div class="cta-buttons">
+                <a href="about.html#contact" class="btn-gold"><i data-lucide="phone"></i> Request Callback</a>
+                <a href="https://wa.me/1234567890" target="_blank" class="btn-outline-gold"><i data-lucide="message-square"></i> Private WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid" id="contact">
+            <div class="footer-brand"><div class="logo">ESTATE<span>land</span></div><p>Purveyors of ultra-premium land assets. Building wealth through secure, strategic, and beautiful earthly investments.</p></div>
+            <div class="footer-links"><h4>Portfolio</h4><a href="plots.html">The Estates</a><a href="#">Completed Acquisitions</a><a href="#">Investment Thesis</a><a href="about.html">Corporate Vision</a></div>
+            <div class="footer-links"><h4>Private Concierge</h4><p><i data-lucide="mail" style="color:var(--gold-main); width:18px;"></i> VIP@estateland.co</p><p><i data-lucide="phone" style="color:var(--gold-main); width:18px;"></i> +1 (800) LUX-LAND</p><p><i data-lucide="map-pin" style="color:var(--gold-main); width:18px;"></i> 100 Financial District, NY</p></div>
+        </div>
+        <div class="container footer-bottom"><p>&copy; 2026 EstateLand Global Inc. Exclusive Rights Reserved.</p></div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            fadeElements.forEach(el => scrollObserver.observe(el));
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.6)';
+                    navbar.style.padding = '18px 0'; 
+                } else {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.2)';
+                    navbar.style.padding = '25px 0'; 
+                }
+            });
+
+            const bg = document.getElementById('parallax-bg');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                bg.style.transform = `translateY(${scrolled * 0.15}px)`;
+            });
+
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#' || targetId.includes('.html')) return;
+                    e.preventDefault();
+                    document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

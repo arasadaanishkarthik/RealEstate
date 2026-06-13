@@ -22,14 +22,11 @@
         
         .container { max-width: 1400px; margin: 0 auto; padding: 0 4vw; }
         .section-pad { padding: 150px 0; }
-        
         .serif { font-family: 'Playfair Display', serif; }
         .italic { font-style: italic; }
         .gold-text { color: var(--accent-gold); }
-        
         .glass-panel { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 24px; }
 
-        /* MASTER UNIFIED NAVBAR */
         .navbar { position: fixed; top: 0; width: 100%; padding: 25px 0; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s ease; }
         .navbar.scrolled { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 15px 0; }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
@@ -44,7 +41,6 @@
         .hero-bg { position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; background: url('./screenshots/Screenshot (212).png') center/cover no-repeat; z-index: -2; will-change: transform; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,1) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%); z-index: -1; }
         .hero-content { position: relative; z-index: 10; width: 100%; }
-        
         .hero-label { display: inline-block; padding: 8px 16px; margin-bottom: 30px; border-left: 2px solid var(--accent-gold); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-secondary); }
         .hero-title { font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 400; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
         .hero-location { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-secondary); font-weight: 300; display: flex; align-items: center; gap: 10px; }
@@ -113,8 +109,19 @@
         .delay-1 { transition-delay: 0.2s; }
         .delay-2 { transition-delay: 0.4s; }
 
+        /* --- Mobile Responsive & Full-Screen Menu --- */
+        .mobile-menu-btn { display: none; color: white; cursor: pointer; }
+        .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.4s ease; }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+        .mobile-menu-close { position: absolute; top: 30px; right: 30px; color: white; cursor: pointer; transition: 0.3s; }
+        .mobile-menu-close:hover { color: var(--accent-gold); transform: rotate(90deg); }
+        .mobile-nav-links { display: flex; flex-direction: column; gap: 40px; text-align: center; }
+        .mobile-nav-links a { font-size: 2rem; font-family: 'Playfair Display', serif; color: white; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; }
+        .mobile-nav-links a:hover, .mobile-nav-links a.active { color: var(--accent-gold); }
+
         @media (max-width: 900px) {
-            .nav-links { display: none; } /* Hide full nav on mobile for clean UI */
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
             .overview-grid { grid-template-columns: 1fr; gap: 50px; }
             .hero-title { font-size: 3.5rem; }
             .section-pad { padding: 100px 0; }
@@ -132,9 +139,23 @@
                 <a href="about.html">Our Vision</a>
                 <a href="about.html#contact">Concierge</a>
             </div>
-            <a href="plots.html" class="btn-return" style="display: none;"><i data-lucide="chevron-left" style="width: 16px;"></i> Back</a>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i data-lucide="menu" style="width: 28px; height: 28px;"></i>
+            </div>
         </div>
     </nav>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <div class="mobile-menu-close" id="mobile-menu-close">
+            <i data-lucide="x" style="width: 36px; height: 36px;"></i>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="index.html">Home</a>
+            <a href="plots.html" class="active">The Estates</a>
+            <a href="about.html">Our Vision</a>
+            <a href="about.html#contact">Concierge</a>
+        </div>
+    </div>
 
     <section class="hero">
         <div class="hero-bg" id="hero-bg"></div>
@@ -142,10 +163,7 @@
         <div class="container hero-content reveal active">
             <span class="hero-label">Available for Acquisition</span>
             <h1 class="hero-title serif italic">The Masterpiece</h1>
-            <div class="hero-location">
-                <i data-lucide="map-pin" style="color: var(--accent-gold);"></i>
-                Prime Highland Corridor, Sector 4
-            </div>
+            <div class="hero-location"><i data-lucide="map-pin" style="color: var(--accent-gold);"></i> Prime Highland Corridor, Sector 4</div>
         </div>
     </section>
 
@@ -155,21 +173,12 @@
                 <h2 class="serif italic">A Canvas for <br>Generational Wealth.</h2>
                 <p>Welcome to a property defined by absolute rarity. Surrounded by untouched natural topography, this expanse offers a blank canvas for architectural excellence or a high-yield strategic hold.</p>
                 <p>Meticulously graded and legally verified, the estate is pre-approved for immediate luxury development, ensuring your investment is secure from day one.</p>
-                
                 <div class="overview-stats">
-                    <div class="stat-item">
-                        <span>Acreage</span>
-                        <strong>5.2 <span style="font-size: 1rem; color: var(--text-secondary);">Acres</span></strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Valuation</span>
-                        <strong>$450K</strong>
-                    </div>
+                    <div class="stat-item"><span>Acreage</span><strong>5.2 <span style="font-size: 1rem; color: var(--text-secondary);">Acres</span></strong></div>
+                    <div class="stat-item"><span>Valuation</span><strong>$450K</strong></div>
                 </div>
             </div>
-            <div class="overview-image reveal delay-1">
-                <img src="./screenshots/overview.jpg" alt="Estate View">
-            </div>
+            <div class="overview-image reveal delay-1"><img src="./screenshots/overview.jpg" alt="Estate View"></div>
         </div>
     </section>
 
@@ -177,11 +186,7 @@
         <div class="container layout-container">
             <h2 class="serif italic" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 300;">Master Blueprint</h2>
             <p style="color: var(--text-secondary); margin-top: 15px; letter-spacing: 1px; font-weight: 300;">Hover to inspect spatial orientation and topography.</p>
-            
-            <div class="layout-frame reveal">
-                <img src="./screenshots/Screenshot (212).png" alt="Master Layout Blueprint">
-            </div>
-            
+            <div class="layout-frame reveal"><img src="./screenshots/Screenshot (212).png" alt="Master Layout Blueprint"></div>
             <div class="layout-legend reveal delay-1">
                 <div class="legend-dot"><div class="dot available"></div> Prime Availability</div>
                 <div class="legend-dot"><div class="dot sold"></div> Acquired</div>
@@ -191,17 +196,10 @@
 
     <section class="section-pad container">
         <h2 class="serif italic" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; margin-bottom: 20px;">The Gallery</h2>
-        
         <div class="gallery-grid">
-            <div class="gallery-item reveal" onclick="openLightbox('./screenshots/gallery1.jpg')">
-                <img src="./screenshots/gallery1.jpg" alt="Gallery">
-            </div>
-            <div class="gallery-item reveal delay-1" onclick="openLightbox('./screenshots/gallery2.jpg')">
-                <img src="./screenshots/gallery2.jpg" alt="Gallery">
-            </div>
-            <div class="gallery-item reveal delay-2" onclick="openLightbox('./screenshots/gallery3.jpg')">
-                <img src="./screenshots/gallery3.jpg" alt="Gallery">
-            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('./screenshots/gallery1.jpg')"><img src="./screenshots/gallery1.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal delay-1" onclick="openLightbox('./screenshots/gallery2.jpg')"><img src="./screenshots/gallery2.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal delay-2" onclick="openLightbox('./screenshots/gallery3.jpg')"><img src="./screenshots/gallery3.jpg" alt="Gallery"></div>
         </div>
     </section>
 
@@ -213,23 +211,10 @@
     <section class="section-pad layout-section">
         <div class="container">
             <h2 class="serif italic" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; text-align: center;">World-Class Engineering</h2>
-            
             <div class="amenities-grid">
-                <div class="glass-panel amenity-card reveal">
-                    <i data-lucide="route"></i>
-                    <h4>60ft Asphalt Arteries</h4>
-                    <p>Heavy-duty internal roads designed for seamless estate navigation.</p>
-                </div>
-                <div class="glass-panel amenity-card reveal delay-1">
-                    <i data-lucide="zap"></i>
-                    <h4>Concealed Utilities</h4>
-                    <p>100% underground power, fiber optics, and advanced drainage systems.</p>
-                </div>
-                <div class="glass-panel amenity-card reveal delay-2">
-                    <i data-lucide="shield-check"></i>
-                    <h4>Fortified Perimeter</h4>
-                    <p>24/7 guarded access with complete physical and digital surveillance.</p>
-                </div>
+                <div class="glass-panel amenity-card reveal"><i data-lucide="route"></i><h4>60ft Asphalt Arteries</h4><p>Heavy-duty internal roads designed for seamless estate navigation.</p></div>
+                <div class="glass-panel amenity-card reveal delay-1"><i data-lucide="zap"></i><h4>Concealed Utilities</h4><p>100% underground power, fiber optics, and advanced drainage systems.</p></div>
+                <div class="glass-panel amenity-card reveal delay-2"><i data-lucide="shield-check"></i><h4>Fortified Perimeter</h4><p>24/7 guarded access with complete physical and digital surveillance.</p></div>
             </div>
         </div>
     </section>
@@ -241,18 +226,9 @@
             <p style="color: var(--text-secondary); margin-bottom: 60px; font-size: 1.1rem; font-weight: 300;">Register your credentials. Our private concierge will coordinate your discreet viewing.</p>
             
             <form class="glass-panel reveal" style="padding: 50px; border-radius: 20px;" onsubmit="event.preventDefault(); alert('Request Received. Our concierge will contact you shortly.');">
-                <div class="form-group">
-                    <input type="text" id="name" required>
-                    <label for="name">Legal Name</label>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="email" required>
-                    <label for="email">Corporate or Private Email</label>
-                </div>
-                <div class="form-group">
-                    <input type="tel" id="phone" required>
-                    <label for="phone">Direct Contact Number</label>
-                </div>
+                <div class="form-group"><input type="text" id="name" required><label for="name">Legal Name</label></div>
+                <div class="form-group"><input type="email" id="email" required><label for="email">Corporate or Private Email</label></div>
+                <div class="form-group"><input type="tel" id="phone" required><label for="phone">Direct Contact Number</label></div>
                 <button type="submit" class="btn-submit">Request Private Viewing</button>
             </form>
         </div>
@@ -261,14 +237,8 @@
     <footer>
         <div class="container">
             <div class="footer-brand">ESTATE<span class="serif italic gold-text">land</span></div>
-            <div class="social-links">
-                <a href="#"><i data-lucide="instagram"></i></a>
-                <a href="#"><i data-lucide="linkedin"></i></a>
-                <a href="#"><i data-lucide="mail"></i></a>
-            </div>
-            <div class="footer-legal">
-                &copy; 2026 EstateLand Exclusive Assets. All rights reserved.
-            </div>
+            <div class="social-links"><a href="#"><i data-lucide="instagram"></i></a><a href="#"><i data-lucide="linkedin"></i></a><a href="#"><i data-lucide="mail"></i></a></div>
+            <div class="footer-legal">&copy; 2026 EstateLand Exclusive Assets. All rights reserved.</div>
         </div>
     </footer>
 
@@ -277,22 +247,14 @@
             lucide.createIcons();
             const revealElements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
             }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
             revealElements.forEach(el => observer.observe(el));
 
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
+                if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
             });
 
             const heroBg = document.getElementById('hero-bg');
@@ -300,29 +262,25 @@
                 const scrollPosition = window.pageYOffset;
                 heroBg.style.transform = `translateY(${scrollPosition * 0.4}px)`;
             });
+
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileClose = document.getElementById('mobile-menu-close');
+
+            if(mobileBtn && mobileOverlay && mobileClose) {
+                mobileBtn.addEventListener('click', () => { mobileOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
+                mobileClose.addEventListener('click', () => { mobileOverlay.classList.remove('active'); document.body.style.overflow = 'auto'; });
+                document.querySelectorAll('.mobile-nav-links a').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('active'); document.body.style.overflow = 'auto'; }); });
+            }
         });
 
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
-
-        function openLightbox(src) {
-            lightboxImg.src = src;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            setTimeout(() => { lightboxImg.src = ''; }, 300); 
-            document.body.style.overflow = 'auto';
-        }
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target !== lightboxImg) closeLightbox();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape" && lightbox.classList.contains('active')) closeLightbox();
-        });
+        function openLightbox(src) { lightboxImg.src = src; lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeLightbox() { lightbox.classList.remove('active'); setTimeout(() => { lightboxImg.src = ''; }, 300); document.body.style.overflow = 'auto'; }
+        lightbox.addEventListener('click', (e) => { if (e.target !== lightboxImg) closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape" && lightbox.classList.contains('active')) closeLightbox(); });
     </script>
 </body>
 </html>
